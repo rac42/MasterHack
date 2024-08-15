@@ -8,11 +8,13 @@ import FooterComponent from "./components/FooterComponent";
 import Projects from './pages/Projects'
 import About from "./pages/About";
 import Landing from './pages/Landing';
+import { useRef } from "react";
 
 function App() {
+  const blogRef = useRef(null);
   return (
     <>
-      <Header />
+      <Header blogRef={blogRef} />
       
       <Routes>
         <Route path='/' element={<Landing/>}/>

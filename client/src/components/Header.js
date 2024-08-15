@@ -2,16 +2,24 @@
 // import React from 'react'
 
 import { Button, Navbar, TextInput } from "flowbite-react";
-import { Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
-
+import { useRef } from "react";
 
 export default function Header() {
-    const path = useLocation().pathname;
+  const path = useLocation().pathname;
+  const blogRef = useRef(null);
+
+  const scrollToBlogs = () => {
+    if (blogRef.current) {
+      blogRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <Navbar className="border-b-2">
-      <Link 
+      <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
@@ -36,22 +44,24 @@ export default function Header() {
           <FaMoon />
         </Button>
         <Link to="/login">
-          <Button gradientDuoTone="purpleToBlue"  outline>SignIn</Button>
+          <Button gradientDuoTone="purpleToBlue" outline>
+            SignIn
+          </Button>
         </Link>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active={path==="/"} as={'div'}>
+        <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
-        </Navbar.Link >
-        <Navbar.Link active={path==="/"} as={'div'}>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="">About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path==="/"} as={'div'}>
+        <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="">Projects</Link>
         </Navbar.Link>
-        <Navbar.Link active={path==="/"} as={'div'}>
-          <Link to="">Blogs</Link>
+        <Navbar.Link active={path === "/"} as={"div"} >
+          <Link to="" onClick={scrollToBlogs()}>Blogs</Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
