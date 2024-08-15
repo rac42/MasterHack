@@ -1,6 +1,9 @@
 import React from "react";
 import { Card } from "flowbite-react";
 import landingImage from "../assets/landingimg.jpg";
+import { FaUserFriends } from "react-icons/fa";
+import Blogs from "../components/Blogs";
+import BlogCollection from "../components/BlogCollection";
 
 function Landing() {
   return (
@@ -25,6 +28,13 @@ function Landing() {
           </p>
         </div>
       </div>
+
+      <div className="flex justify-center items-center mt-10">
+        <div className="heartbeat text-6xl text-blue-900">
+          <FaUserFriends />
+        </div>
+      </div>
+      <BlogCollection />
     </>
   );
 }
