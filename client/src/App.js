@@ -8,14 +8,16 @@ import FooterComponent from "./components/FooterComponent";
 import Projects from './pages/Projects'
 import About from "./pages/About";
 import Blogs from "./pages/Blogs";
+import Landing from './pages/Landing';
 
 function App() {
   return (
     <>
       <Header />
-
+      
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path='/' element={<Landing/>}/>
+        <Route path="home" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="projects" element={<Projects/>}/>
