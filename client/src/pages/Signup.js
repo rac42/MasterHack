@@ -1,129 +1,131 @@
-import React,{useState} from 'react'
-import bg from '../assets/NGO.jpg'
-import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import signupimg from "../assets/signupimg.png";
 
-const Signup = () => {
+export default function SignUp() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({});
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState( {
-    email:"", password:"",name:"",confirmPassword:""
-  })
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+  };
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPassword1, setShowPassword1] = useState(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    function changeHandler(event) {
-        setFormData( (prevData) => {
-           return { 
-                ...prevData, 
-                [event.target.name]:event.target.value,
-            }
-        });
+    // Client-side validation
+    if (!formData.Name || !formData.email || !formData.password) {
+      return setErrorMsg("All fields are required!");
     }
 
-    function submitHandler(event) {
-      event.preventDefault();
-      console.log("Printing the form data");
-      console.log(formData);
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      return setErrorMsg("Invalid email format!");
     }
+
+    if (formData.password.length < 6) {
+      return setErrorMsg("Password must be at least 6 characters long!");
+    }
+
+    try {
+      setLoading(true);
+      setErrorMsg(null);
+      const res = await fetch("/server/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        return setErrorMsg(data.message);
+      }
+
+      setLoading(false);
+      if (res.ok) {
+        navigate("/Login");
+      }
+    } catch (error) {
+      setLoading(false);
+      setErrorMsg("An unexpected error occurred. Please try again.");
+    }
+  };
 
   return (
-    <div className="flex min-h-screen">
-      
-    <div className="w-7/12 bg-cover bg-center" style={{ backgroundImage: `url(${bg})` }}></div>
-
-    <div className="w-5/12 flex flex-col justify-center p-20 bg-magenta-200">
-    <form  className="space-y-6" onSubmit={submitHandler}>
-      <div>
-
-          <label className="block text-gray-700 text-sm font-medium mb-1">
-                  <p>Name<sup className="text-red-500">*</sup></p>
-                  <input
-                      required
-                      type='text'
-                      value={formData.name}
-                      name="name"
-                      onChange={changeHandler}
-                      placeholder='Enter full name'
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-          </label>
-          </div>
-
-          <div>
-          <label className="block text-gray-700 text-sm font-medium mb-1">
-              <p>Email Address<sup className="text-red-500">*</sup></p>
-              <input
-                  required
-                  type='email'
-                  value={formData.email}
-                  name="email"
-                  onChange={changeHandler}
-                  placeholder='Enter email id'
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-          </label>
-          </div>
-
-          <div>
-          <label>
-              <p>Create Password<sup className='text-red-400'>*</sup></p>
-              <div className="relative">
-              <input
-                  required
-                  type={showPassword ? ("text") : ("password")}
-                  value={formData.password}
-                  name='password'
-                  onChange={changeHandler}
-                  placeholder='Enter password'
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                <span onClick={ () => setShowPassword(!showPassword)}  className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500">
-                    {showPassword ? (<AiOutlineEyeInvisible/>) : (<AiOutlineEye/>)}
-                  </span>
-                  </div>
-          </label>
-          </div>
-
-
-          <div>
-          <label>
-              <p>Confirm Password<sup className='text-red-400'>*</sup></p>
-              <div className='relative'>
-              <input
-                  required
-                  type={showPassword1 ? ("text") : ("password")}
-                  value={formData.confirmPassword}
-                  name="confirmPassword"
-                  onChange={changeHandler}
-                  placeholder='Confirm Password'
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <span onClick={ () => setShowPassword1(!showPassword1)}  className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500">
-                    {showPassword1 ? (<AiOutlineEyeInvisible/>) : (<AiOutlineEye/>)}
-                  </span>
-                  </div>
-          </label>
-          </div>
-
-                    <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300">
-                        Log In
-                    </button>
-              
+    <div className="min-h-screen mt-20">
+      <div className="flex p-2 max-w-3xl mx-auto shadow-xl dark:shadow-gray-800 flex-col md:flex-row md:items-center gap-5">
+        {/* left side */}
+        <div className="flex-1">
+          <img
+            class="h-auto rounded-lg "
+            src={signupimg}
+            alt="image description"
+          />
+        </div>
+        {/* right side */}
+        <div className="flex-1">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <div>
+              <Label value="Name" />
+              <TextInput
+                type="text"
+                placeholder="username"
+                id="Name"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label value="Email" />
+              <TextInput
+                type="email"
+                placeholder="Email"
+                id="email"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label value="Password" />
+              <TextInput
+                type="password"
+                placeholder="Password"
+                id="password"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <Button
+              gradientDuoTone="purpleToBlue"
+              type="submit"
+              outline
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Sign-Up"
+              )}
+            </Button>
           </form>
-
-
-          <div className="flex items-center my-6">
-                    <div className="flex-grow h-px bg-gray-300"></div>
-                    <span className="mx-4 text-gray-500">or</span>
-                    <div className="flex-grow h-px bg-gray-300"></div>
+          <div className="flex gap-2 text-sm mt-5">
+            <span>Have an Account?</span>
+            <Link to="/SignIn" className="text-blue-500">
+              Sign-In
+            </Link>
           </div>
-
-          <button className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center">
-                    Sign up with Google
-          </button>
-              </div>
- </div>
-  )
+          {errorMsg && (
+            <Alert className="mt-5" color="failure">
+              {errorMsg}
+            </Alert>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
-
-export default Signup
