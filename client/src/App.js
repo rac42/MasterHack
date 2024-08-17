@@ -9,6 +9,7 @@ import Projects from './pages/Projects'
 import About from "./pages/About";
 import Landing from './pages/Landing';
 import { useRef } from "react";
+import BlogCollection from "./components/BlogCollection";
 
 function App() {
   const blogRef = useRef(null);
@@ -17,7 +18,7 @@ function App() {
       <Header blogRef={blogRef} />
       
       <Routes>
-        <Route path='/' element={<Landing/>}/>
+        <Route path="/" element={<Landing/>} />
         <Route path="home" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />

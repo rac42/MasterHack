@@ -29,18 +29,22 @@ function Landing() {
         </div>
       </div>
 
+  {/* animated icon */}
       <div className="flex justify-center  mt-10">
         <div className="heartbeat text-6xl text-blue-900">
           <FaUserFriends />
         </div>
       </div>
 
+{/*divider */}
       <div className="flex flex-row justify-center items-center m-auto gap-2 mt-2 mb-2">
         <hr class="w-8 h-8  my-8 border-0 bg-red-300 rounded md:my-12 dark:bg-gray-700" />
         <hr class="w-8 h-8  my-8 border-0 bg-red-500 rounded md:my-12 dark:bg-gray-700" />
         <hr class="w-8 h-8  my-8 border-0 bg-red-700  rounded md:my-12 dark:bg-gray-700" />
       </div>
 
+    
+    {/* blogsss intro */}
       <div className="flex flex-col justify-center items-center m-auto ">
         <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
@@ -56,6 +60,7 @@ function Landing() {
         </p>
       </div>
 
+{/* actual blogs */}
       <BlogCollection />
     </>
   );
