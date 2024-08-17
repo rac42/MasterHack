@@ -10,48 +10,41 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
+    console.log(formData);
     e.preventDefault();
 
     // Client-side validation
     if (!formData.Name || !formData.email || !formData.password) {
-      return setErrorMsg("All fields are required!");
-    }
-
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      return setErrorMsg("Invalid email format!");
-    }
-
-    if (formData.password.length < 6) {
-      return setErrorMsg("Password must be at least 6 characters long!");
+        return setErrorMsg("All fields are required!");
     }
 
     try {
-      setLoading(true);
-      setErrorMsg(null);
-      const res = await fetch("/server/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+        setLoading(true);
+        setErrorMsg(null);
+        const res = await fetch("/server/auth/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+        });
 
-      const data = await res.json();
-      if (data.success === false) {
-        return setErrorMsg(data.message);
-      }
+        const data = await res.json();
+        if (!res.ok) {
+            setLoading(false);
+            return setErrorMsg(data.message || "Sign-up failed.");
+        }
 
-      setLoading(false);
-      if (res.ok) {
+        setLoading(false);
         navigate("/Login");
-      }
     } catch (error) {
-      setLoading(false);
-      setErrorMsg("An unexpected error occurred. Please try again.");
+        setLoading(false);
+        setErrorMsg("An unexpected error occurred. Please try again.");
     }
-  };
+};
+
 
   return (
     <div className="min-h-screen mt-20">
