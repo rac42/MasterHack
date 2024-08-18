@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import signupimg from "../assets/signupimg.png";
 
-export default function Login() {
+export default function Login({isAuthenticated, setIsAuthenticated}) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [errorMsg, setErrorMsg] = useState(null);
@@ -39,6 +39,9 @@ export default function Login() {
       setLoading(false);
       if(res.ok){
         if(data.role=="admin") {
+          console.log(isAuthenticated)
+          setIsAuthenticated(true)
+          console.log(isAuthenticated)
           navigate('/dashboard')
         }
         // window.location.href = "http://localhost:3001";
