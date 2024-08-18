@@ -28,14 +28,23 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      console.log(res);
       const data = await res.json();
+      console.log(data);
       if (data.success === false) {
         // console.log(data)
+        setLoading(false);
         return setErrorMsg(data.message);
       }
       setLoading(false);
       if(res.ok){
-        navigate('/')
+        if(data.role=="admin") {
+          navigate('/dashboard')
+        }
+        // window.location.href = "http://localhost:3001";
+        else {
+          navigate('/')
+        }
       }
     } catch (error) {
       // console.log(error)

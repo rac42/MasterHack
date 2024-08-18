@@ -10,7 +10,7 @@ export const signup = async (req, res, next) => {
   const { Name, email, password } = req.body;
 
   if (!Name || !email || !password) {
-    next(errorHandler(400, "All fields are required"));
+    next(errorHandler(400, "All fields are required"));  
   }
 
   // const salt_rounds = process.env.SALT_ROUND;
@@ -56,6 +56,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign(
       {
         id: validUser._id,
+        role : validUser.role
       },
       "team16"
     );
