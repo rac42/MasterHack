@@ -4,13 +4,15 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import signupimg from "../assets/signupimg.png";
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInFailure, signInSuccess } from "../Redux/User/UserSlice";
 
 export default function Login({isAuthenticated, setIsAuthenticated}) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error: errorMsg } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
@@ -18,11 +20,10 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMsg("All fields are required!!!");
+      return dispatch(signInFailure('All fields are required!!!'));
     }
     try {
-      setLoading(true);
-      setErrorMsg(null);
+      dispatch(signInStart());
       const res = await fetch("/server/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,12 +34,11 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
       console.log(data);
       if (data.success === false) {
         // console.log(data)
-        setLoading(false);
-        return setErrorMsg(data.message);
+        dispatch(signInFailure(data.message))
       }
-      setLoading(false);
+      
       if(res.ok){
-        if(data.role=="admin") {
+        if(data.role==="admin") {
           console.log(isAuthenticated)
           setIsAuthenticated(true)
           console.log(isAuthenticated)
@@ -46,13 +46,13 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
         }
         // window.location.href = "http://localhost:3001";
         else {
+          dispatch(signInSuccess(data));
           navigate('/')
         }
       }
     } catch (error) {
       // console.log(error)
-      setLoading(false);
-      setErrorMsg(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
 
