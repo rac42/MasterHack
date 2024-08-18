@@ -2,6 +2,7 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import signupimg from "../assets/signupimg.png";
+import GoogleAuth from "../components/GoogleAuth";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -105,6 +106,7 @@ export default function SignUp() {
                 "Sign-Up"
               )}
             </Button>
+            <GoogleAuth/>
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Have an Account?</span>

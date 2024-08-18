@@ -6,6 +6,7 @@ import { Link,useNavigate } from "react-router-dom";
 import signupimg from "../assets/signupimg.png";
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStart, signInFailure, signInSuccess } from "../Redux/User/UserSlice";
+import GoogleAuth from "../components/GoogleAuth";
 
 export default function Login({isAuthenticated, setIsAuthenticated}) {
   const navigate = useNavigate();
@@ -103,6 +104,7 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
                 "Login"
               )}
             </Button>
+            <GoogleAuth/>
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Dont have an Account?</span>
