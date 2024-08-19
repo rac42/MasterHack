@@ -1,5 +1,5 @@
 import React, { createContext, useState, useRef } from "react";
-import { Button, Navbar, TextInput } from "flowbite-react";
+import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
@@ -43,9 +43,31 @@ export default function Header() {
             {theme==='light' ? <FaSun/> : <FaMoon/>}
           </Button>
           <Link to="/login">
+          {currentUser ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar alt="User" img={currentUser.profilePicture} rounded />
+              }
+            >
+              <Dropdown.Header>
+                <span className="block text-sm">@{currentUser.Name}</span>
+                <span className="block text-sm font-medium truncate">
+                  {currentUser.email}
+                </span>
+              </Dropdown.Header>
+              <Link to={"/dashboard?tab=profile"}>
+                <Dropdown.Item> Profile </Dropdown.Item>
+              </Link>
+              <Dropdown.Divider />
+              <Dropdown.Item>Signout</Dropdown.Item>
+            </Dropdown>
+          ) : (
             <Button gradientDuoTone="purpleToBlue" outline>
               SignIn
             </Button>
+          )}
           </Link>
           <Navbar.Toggle />
         </div>
