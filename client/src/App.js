@@ -44,7 +44,7 @@ function App() {
             <Route path="donations" element={<Donation />} />
             <Route path="adminposts" element={<AdminPosts />} />
           </Route>
-        </Route>
+        </Route> 
 
       </Routes>
 

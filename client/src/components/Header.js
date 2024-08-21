@@ -5,6 +5,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../Redux/Theme/themeSlice";
+import { signOutHandler } from "../Redux/User/UserSlice";
 
 // Create the context
 
@@ -14,6 +15,10 @@ export default function Header() {
   const {theme} = useSelector((state) => state.theme)
   const dispatch = useDispatch();
   const path = useLocation().pathname;
+
+  function handler() {
+    dispatch(signOutHandler());
+  }
 
   return (
     
@@ -42,7 +47,7 @@ export default function Header() {
           <Button className="w-12 h-10 hidden sm:inline" color="gray" pill onClick={()=> {dispatch(toggleTheme())}}>
             {theme==='light' ? <FaSun/> : <FaMoon/>}
           </Button>
-          <Link to="/login">
+          
           {currentUser ? (
             <Dropdown
               arrowIcon={false}
@@ -61,14 +66,19 @@ export default function Header() {
                 <Dropdown.Item> Profile </Dropdown.Item>
               </Link>
               <Dropdown.Divider />
-              <Dropdown.Item>Signout</Dropdown.Item>
+              <Link to={"/"}>
+                <Dropdown.Item onClick={handler}> Logout </Dropdown.Item>
+              </Link>
             </Dropdown>
           ) : (
+            <Link to="/login">
             <Button gradientDuoTone="purpleToBlue" outline>
               SignIn
             </Button>
+            </Link>
+            
           )}
-          </Link>
+          
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>

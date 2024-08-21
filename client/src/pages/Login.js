@@ -43,6 +43,7 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
           console.log(isAuthenticated)
           setIsAuthenticated(true)
           console.log(isAuthenticated)
+          dispatch(signInSuccess(data));
           navigate('/dashboard')
         }
         // window.location.href = "http://localhost:3001";

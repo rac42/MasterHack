@@ -1,5 +1,6 @@
 import React from 'react'
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from "recharts";
+import Ratio from './Ratio';
 
 const data = [
     {month : "Jan", users : "30"},
@@ -19,7 +20,11 @@ const Growth = () => {
                 <Legend/>
                 <Line type={"monotone"} dataKey={"users"} stroke='#8884d8'/>
     </LineChart>
+
+    {/* <Ratio/> */}
     </ResponsiveContainer>
+
+    
   )
 }
 

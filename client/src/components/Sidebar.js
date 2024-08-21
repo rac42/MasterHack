@@ -4,7 +4,7 @@ import { IoMenuSharp } from "react-icons/io5";
 
 const Sidebar = () => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -18,12 +18,12 @@ const Sidebar = () => {
         <div className="p-4">
             <h1 className="text-2xl font-bold" onClick={() => Navigate('/dashboard')}>Admin Dashboard</h1>
         </div>
-        <button
+        {/* <button
             onClick={toggleSidebar}
             className="m-4 p-2 text-white rounded hover:bg-black-700 "
         >
             <IoMenuSharp />
-        </button>
+        </button> */}
         {
             isOpen && (
                 <>
