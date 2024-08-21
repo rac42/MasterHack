@@ -1,17 +1,18 @@
 // import React from 'react'
 
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import signupimg from "../assets/signupimg.png";
 import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInFailure, signInSuccess } from "../Redux/User/UserSlice";
+import { signInStart, signInFailure, signInSuccess, adminSignInSuccess } from "../Redux/User/UserSlice";
 import GoogleAuth from "../components/GoogleAuth";
 
-export default function Login({isAuthenticated, setIsAuthenticated}) {
+export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const { loading, error: errorMsg } = useSelector((state) => state.user);
+  
 
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -40,10 +41,10 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
       
       if(res.ok){
         if(data.role==="admin") {
-          console.log(isAuthenticated)
-          setIsAuthenticated(true)
-          console.log(isAuthenticated)
-          dispatch(signInSuccess(data));
+          // console.log(isAuthenticated)
+          // setIsAuthenticated(true)
+          // console.log(isAuthenticated)
+          dispatch(adminSignInSuccess(data));
           navigate('/dashboard')
         }
         // window.location.href = "http://localhost:3001";
@@ -57,6 +58,8 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
       dispatch(signInFailure(error.message));
     }
   };
+  
+  
 
   return (
     <div className="min-h-screen mt-20">

@@ -20,7 +20,9 @@ import ProtectedRoute from "./pages/admin_dashboard/ProtectedRoute";
 
 function App() {
   const blogRef = useRef(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+
 
   return (
     <>
@@ -29,14 +31,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="home" element={<Home />} />
-        <Route path="login" element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="projects" element={<Projects/>}/>
         <Route path="about" element={<About/>} />
 
 
         {/* admin Routes */}
-        <Route path="/dashboard" element={<ProtectedRoute isAuthenticated={isAuthenticated}/>}>
+        <Route path="/dashboard" element={<ProtectedRoute/>}>
           <Route path="" element={<Dashboard/>}>
             <Route path="growth" element={<Growth />} />
             <Route path="ratio" element={<Ratio />} />

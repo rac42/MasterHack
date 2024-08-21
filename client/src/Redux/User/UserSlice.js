@@ -4,6 +4,7 @@ const initialState = {
   currentUser: null,
   error: null, 
   loading: false,
+  isAdmin: false
 };
 
 const userSlice = createSlice({
@@ -27,10 +28,17 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.loading= false;
       state.error=null;
-    }
+      state.isAdmin = false;
+    },
+    adminSignInSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = null;
+      state.isAdmin = true;
+    },
   },
 });
 
-export const {signInStart,signInSuccess,signInFailure, signOutHandler} = userSlice.actions;
+export const {signInStart,signInSuccess,signInFailure, signOutHandler, adminSignInSuccess} = userSlice.actions;
 
 export default userSlice.reducer;
