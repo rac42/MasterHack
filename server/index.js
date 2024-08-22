@@ -38,7 +38,7 @@ cloudinaryConnect();
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use('/', express.static(path.join(__dirname,'uploads')));
+// app.use('/', express.static(path.join(__dirname,'uploads')));
 console.log((path.join(__dirname,'uploads')));
 app.use(express.json());
 app.use(fileuPload({
@@ -66,4 +66,8 @@ app.use((err,req,res,next) => {
 })
 
 // git checkout -b main2
-// git add D:\master
+// // git add D:\master
+// git config --local user.name "omkumavat"
+// git config --local user.email "omkumavat2004@gmail.com"
+// git remote add origin https://github.com/rac42/MasterHack
+

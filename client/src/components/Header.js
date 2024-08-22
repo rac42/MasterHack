@@ -25,7 +25,7 @@ export default function Header() {
       dispatch(logoutSuccess());
       localStorage.removeItem("Users");
       // Navigate to the projects page or any other page
-      navigate('/projects', { replace: true });
+      navigate('/', { replace: true });
 
       // Optionally reload the page to reset the application state
       window.location.reload();
@@ -71,7 +71,7 @@ export default function Header() {
         <Button className="w-12 h-10 hidden sm:inline" color="gray" pill onClick={() => { dispatch(toggleTheme()) }}>
           {theme === 'light' ? <FaSun /> : <FaMoon />}
         </Button>
-        <Link to="/login">
+        {/* <Link to="/"> */}
           {currentUser ? (
             <Dropdown
               arrowIcon={false}
@@ -82,9 +82,6 @@ export default function Header() {
             >
               <Dropdown.Header>
                 <span className="block text-sm">@{currentUser.Name}</span>
-                <span className="block text-sm font-medium truncate">
-                  {currentUser.email}
-                </span>
               </Dropdown.Header>
               <Link to={"/dashboard?tab=profile"}>
                 <Dropdown.Item> Profile </Dropdown.Item>
@@ -93,11 +90,11 @@ export default function Header() {
               <Dropdown.Item onClick={handleLogout}>Signout</Dropdown.Item>
             </Dropdown>
           ) : (
-            <Button gradientDuoTone="purpleToBlue" outline>
+            <Button gradientDuoTone="purpleToBlue" outline onClick={(()=>{navigate('/Login')})}>
               SignIn
             </Button>
           )}
-        </Link>
+        {/* </Link> */}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>

@@ -1,7 +1,7 @@
 // import React from 'react'
 
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import signupimg from "../assets/signupimg.png";
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,31 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
   const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+  };
+
+  const sendEmailNotification = async (email) => {
+    try {
+      // const html = `
+      //      **Your registration was successful.**
+      //     Thank you for using our service!
+      //   `;
+        const emailData = {
+          email: email,
+          subject: 'Thank you for joining with us!',
+          // message: html,
+        }
+
+        // console.log(emailData)
+
+      await fetch("/server/auth/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emailData),
+      });
+
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -45,8 +70,10 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
           console.log(isAuthenticated)
           navigate('/dashboard')
         }
+
         // window.location.href = "http://localhost:3001";
         else {
+          // sendEmailNotification(formData.email);
           dispatch(signInSuccess(data));
           navigate('/')
         }
@@ -56,6 +83,13 @@ export default function Login({isAuthenticated, setIsAuthenticated}) {
       dispatch(signInFailure(error.message));
     }
   };
+
+  useEffect(() => {
+    if (loading && !isAuthenticated) {
+      dispatch(signInFailure(null)); // or a similar action to reset loading
+    }
+  }, [loading, isAuthenticated, dispatch]);
+  
 
   return (
     <div className="min-h-screen mt-20">

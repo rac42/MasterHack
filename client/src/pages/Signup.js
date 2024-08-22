@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import signupimg from "../assets/signupimg.png";
 import GoogleAuth from "../components/GoogleAuth";
-
+// import axios from 'axios;'
 export default function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
@@ -21,6 +21,31 @@ export default function SignUp() {
             <text x="100" y="125" font-size="100" font-family="sans-serif" fill="#ffffff" text-anchor="middle">${letter}</text>
         </svg>`;
     return `data:image/svg+xml;base64,${btoa(svg)}`;
+  };
+
+  const sendEmailNotification = async (email) => {
+    try {
+      // const html = `
+      //      **Your registration was successful.**
+      //     Thank you for using our service!
+      //   `;
+        const emailData = {
+          email: email,
+          subject: 'Thank you for joining with us!',
+          // message: html,
+        }
+
+        console.log(emailData)
+
+      await fetch("/server/auth/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emailData),
+      });
+
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -51,6 +76,8 @@ export default function SignUp() {
         setLoading(false);
         return setErrorMsg(data.message || "Sign-up failed.");
       }
+      console.log(formData);
+      sendEmailNotification(formData.email);
 
       localStorage.setItem("Users", JSON.stringify(formDataWithPicture));
       setLoading(false);

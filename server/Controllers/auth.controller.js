@@ -3,49 +3,15 @@ import { errorHandler } from "../Utils/Error.js";
 import dotenv from "dotenv";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { createCanvas } from 'canvas';
+// import { createCanvas } from 'canvas';
 import fs from 'fs';
 import path from 'path';
-import cloudinary from 'cloudinary';
+// import cloudinary from 'cloudinary';
 import { fileURLToPath } from 'url';
+import { uploadToCloudinary } from "./image.controller.js";
+import generateProfilePicture from "./image.controller.js";
 
 dotenv.config();
-
-function generateProfilePicture(letter) {
-  const canvas = createCanvas(200, 200);
-  const ctx = canvas.getContext('2d');
-
-  // Background color
-  ctx.fillStyle = '#007bff';
-  ctx.fillRect(0, 0, 200, 200);
-
-  // Text settings
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 100px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(letter, 100, 100);
-
-  return canvas.toBuffer();
-}
-
-async function uploadToCloudinary(file, folder, quality) {
-  const options = { folder };
-  options.resource_type = "auto";
-
-  if (quality) {
-    options.quality = quality;
-  }
-
-  try {
-    const result = await cloudinary.uploader.upload(file, options);
-    return result;
-  } catch (error) {
-    console.log('Cloudinary Upload Error:', error);
-    throw error;
-  }
-}
-
 
 export const signup = async (req, res, next) => {
   const { Name, email, password } = req.body;
